@@ -1,0 +1,30 @@
+---
+layout: layouts/base.njk
+---
+<article class="post wrap wrap--narrow">
+  <header class="post__header">
+    <p class="post__kicker">
+      {% for node in categories.list | categoryChain(category) %}<a href="/{{ node.slug }}/">{{ node.title }}</a>{% if not loop.last %} · {% endif %}{% endfor %}
+    </p>
+    <h1 class="post__title">{{ title }}</h1>
+    {% if description %}<p class="post__dek">{{ description }}</p>{% endif %}
+    <p class="post__meta">
+      {% if author %}By <span class="post__author">{{ author }}</span> · {% endif %}
+      <time datetime="{{ date | isoDate }}">{{ date | readableDate }}</time>
+    </p>
+  </header>
+
+  {% if image %}
+  <figure class="post__image">
+    <img src="{{ image }}" alt="{{ imageAlt or title }}" loading="lazy">
+  </figure>
+  {% endif %}
+
+  <div class="post__body">
+    {{ content | safe }}
+  </div>
+
+  <footer class="post__footer">
+    <a class="back-link" href="{{ categories.list | categoryUrl(category) }}">← Back to {{ categories.list | categoryTitle(category) }}</a>
+  </footer>
+</article>

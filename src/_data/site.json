@@ -1,0 +1,31 @@
+{
+  "title": "Global Investment Reviews",
+  "shortName": "GIR",
+  "tagline": "Financial, Geopolitical & Citizenship Intelligence",
+  "description": "Global Investment Reviews: Expert market intelligence, geopolitical strategy, and in-depth financial analysis for smarter, data-driven investment decisions.",
+  "url": "https://globalinvestmentreviews.com",
+  "logoText": "GIR",
+  "footerAbout": "Global Investment Reviews (GIR) is an intelligence desk covering the intersection of geopolitics and global capital — markets, banking, personal finance, and investment migration, read by allocators who need the signal without the noise.",
+  "social": {
+    "x": "https://x.com/GlobalInvestRev/",
+    "linkedin": "https://www.linkedin.com/company/global-investment-reviews/",
+    "pinterest": "https://pinterest.com/globalinvestmentreviews/",
+    "medium": "https://medium.com/@iqbalsonka4"
+  },
+  "footerLinks": [
+    { "title": "About Global Investment Reviews", "url": "/about-us/" },
+    { "title": "Editorial Policy", "url": "/editorial-policy/" },
+    { "title": "Our Methodology", "url": "/our-methodology/" },
+    { "title": "Our Experts", "url": "/our-experts/" },
+    { "title": "Contact", "url": "/contact-us/" }
+  ],
+  "legalLinks": [
+    { "title": "Disclaimer", "url": "/disclaimer-and-financial-disclosure/" },
+    { "title": "Privacy Policy", "url": "/privacy-policy/" },
+    { "title": "Terms & Conditions", "url": "/terms-and-conditions/" },
+    { "title": "DMCA Policy", "url": "/dmca-copyright-policy/" },
+    { "title": "Corrections Policy", "url": "/corrections-policy/" },
+    { "title": "Code of Ethics", "url": "/code-of-ethics/" }
+  ],
+  "copyright": "© 2026 Global Investment Reviews. All Rights Reserved."
+}

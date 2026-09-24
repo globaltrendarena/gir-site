@@ -1,0 +1,41 @@
+<footer class="site-footer">
+  <div class="wrap site-footer__grid">
+    <div class="site-footer__about">
+      <p class="site-footer__logo">{{ site.logoText }}</p>
+      <p>{{ site.footerAbout }}</p>
+      <ul class="site-footer__social">
+        {% if site.social.x %}<li><a href="{{ site.social.x }}">X</a></li>{% endif %}
+        {% if site.social.linkedin %}<li><a href="{{ site.social.linkedin }}">LinkedIn</a></li>{% endif %}
+        {% if site.social.pinterest %}<li><a href="{{ site.social.pinterest }}">Pinterest</a></li>{% endif %}
+        {% if site.social.medium %}<li><a href="{{ site.social.medium }}">Medium</a></li>{% endif %}
+      </ul>
+    </div>
+
+    <nav class="site-footer__nav" aria-label="Sections">
+      <h2>Sections</h2>
+      <ul>
+        {% for top in categories.list | topLevel %}
+        <li><a href="/{{ top.slug }}/">{{ top.title }}</a></li>
+        {% endfor %}
+      </ul>
+    </nav>
+
+    <nav class="site-footer__nav" aria-label="About GIR">
+      <h2>About GIR</h2>
+      <ul>
+        {% for link in site.footerLinks %}
+        <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </div>
+
+  <div class="wrap site-footer__legal">
+    <p>{{ site.copyright }}</p>
+    <ul>
+      {% for link in site.legalLinks %}
+      <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</footer>

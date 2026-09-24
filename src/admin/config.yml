@@ -1,0 +1,144 @@
+backend:
+  name: github
+  repo: YOUR-GITHUB-USERNAME/YOUR-REPO-NAME   # <-- CHANGE THIS to "username/repo"
+  branch: main
+  base_url: https://YOUR-WORKER-SUBDOMAIN.workers.dev   # <-- CHANGE THIS to your Cloudflare Worker URL
+  auth_endpoint: auth
+
+site_url: https://YOUR-GITHUB-USERNAME.github.io/YOUR-REPO-NAME   # <-- CHANGE THIS (or your custom domain)
+display_url: https://YOUR-GITHUB-USERNAME.github.io/YOUR-REPO-NAME
+
+media_folder: "src/assets/images/uploads"
+public_folder: "/assets/images/uploads"
+
+publish_mode: simple
+locale: "en"
+
+collections:
+  # ---------------------------------------------------------------
+  # POSTS — every article, filed into one category/subcategory
+  # ---------------------------------------------------------------
+  - name: "posts"
+    label: "Posts"
+    label_singular: "Post"
+    folder: "src/posts"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    summary: "{{title}} — {{category}}"
+    sortable_fields: ["date", "title"]
+    fields:
+      - { label: "Layout", name: "layout", widget: "hidden", default: "layouts/post.njk" }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Short description (used in listings & SEO)", name: "description", widget: "text", required: false }
+      - { label: "Publish date", name: "date", widget: "datetime" }
+      - label: "Category"
+        name: "category"
+        widget: "relation"
+        collection: "categories"
+        search_fields: ["title", "slug"]
+        value_field: "slug"
+        display_fields: ["title"]
+        hint: "Type to search. New categories you add under the Categories tab show up here automatically."
+      - { label: "Author", name: "author", widget: "string", required: false }
+      - { label: "Cover image", name: "image", widget: "image", required: false }
+      - { label: "Cover image alt text", name: "imageAlt", widget: "string", required: false }
+      - { label: "Body", name: "body", widget: "markdown" }
+      - { label: "Tags (internal, leave as post)", name: "tags", widget: "hidden", default: "post" }
+
+  # ---------------------------------------------------------------
+  # PAGES — About, Contact, legal pages, and any new standalone page
+  # ---------------------------------------------------------------
+  - name: "pages"
+    label: "Pages"
+    label_singular: "Page"
+    folder: "src/pages"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Layout", name: "layout", widget: "hidden", default: "layouts/page.njk" }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Short description (SEO)", name: "description", widget: "text", required: false }
+      - label: "URL path"
+        name: "permalink"
+        widget: "string"
+        hint: "e.g. /about-us/  — must start and end with a slash"
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  # ---------------------------------------------------------------
+  # SITE SETTINGS — header/footer/branding + the category tree
+  # ---------------------------------------------------------------
+  - name: "settings"
+    label: "Site Settings"
+    editor:
+      preview: false
+    files:
+      - name: "general"
+        label: "Header, Footer & Branding"
+        file: "src/_data/site.json"
+        fields:
+          - { label: "Site title", name: "title", widget: "string" }
+          - { label: "Short logo text (header)", name: "shortName", widget: "string" }
+          - { label: "Tagline (shown under the top bar)", name: "tagline", widget: "string" }
+          - { label: "Meta description (SEO)", name: "description", widget: "text" }
+          - { label: "Site URL", name: "url", widget: "string" }
+          - { label: "Logo text", name: "logoText", widget: "string" }
+          - { label: "Footer about text", name: "footerAbout", widget: "text" }
+          - label: "Social links"
+            name: "social"
+            widget: "object"
+            fields:
+              - { label: "X / Twitter", name: "x", widget: "string", required: false }
+              - { label: "LinkedIn", name: "linkedin", widget: "string", required: false }
+              - { label: "Pinterest", name: "pinterest", widget: "string", required: false }
+              - { label: "Medium", name: "medium", widget: "string", required: false }
+          - label: "Footer links (About GIR column)"
+            name: "footerLinks"
+            widget: "list"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "URL", name: "url", widget: "string" }
+          - label: "Legal links (bottom bar)"
+            name: "legalLinks"
+            widget: "list"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "URL", name: "url", widget: "string" }
+          - { label: "Copyright line", name: "copyright", widget: "string" }
+
+  # ---------------------------------------------------------------
+  # CATEGORIES — the full section/subsection tree (menu + section pages).
+  # Each category is its own file, so you can add, edit, or delete one
+  # from here at any time — no code change needed. New/renamed/removed
+  # categories are picked up automatically by Posts → Category above.
+  # ---------------------------------------------------------------
+  - name: "categories"
+    label: "Categories"
+    label_singular: "Category"
+    folder: "src/_data/category-entries"
+    create: true
+    delete: true
+    format: "json"
+    slug: "{{slug}}"
+    summary: "{{title}} ({{slug}})"
+    sortable_fields: ["order", "title"]
+    fields:
+      - label: "Title"
+        name: "title"
+        widget: "string"
+        hint: "What readers see in the menu and on the section page, e.g. \"Cryptocurrency\""
+      - label: "Slug (URL path)"
+        name: "slug"
+        widget: "string"
+        hint: "Lowercase, hyphenated. For a subsection, prefix it with the parent's slug, e.g. finance/cryptocurrency"
+      - label: "Parent category slug"
+        name: "parent"
+        widget: "string"
+        required: false
+        hint: "Leave blank for a top-level section. Otherwise, paste the exact slug of the parent category (e.g. finance)."
+      - label: "Order"
+        name: "order"
+        widget: "number"
+        default: 1
+        hint: "Controls left-to-right / top-to-bottom order among siblings."

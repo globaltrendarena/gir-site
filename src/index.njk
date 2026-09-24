@@ -1,0 +1,123 @@
+---
+layout: layouts/base.njk
+title: "Home"
+---
+{% set allPosts = collections.posts %}
+{% set featured = allPosts | limit(5) %}
+{% set trending = allPosts | limit(6) %}
+
+{% if trending.length %}
+<div class="trending-strip">
+  <div class="wrap trending-strip__inner">
+    <span class="trending-strip__label">Trending</span>
+    <ul class="trending-strip__list">
+      {% for post in trending %}
+      <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endif %}
+
+<section class="hero-grid wrap">
+  {% if featured.length %}
+  {% set main = featured[0] %}
+  <article class="hero-featured">
+    <a class="hero-featured__media" href="{{ main.url }}">
+      {% if main.data.image %}
+      <img src="{{ main.data.image }}" alt="{{ main.data.imageAlt or main.data.title }}" loading="eager">
+      {% else %}
+      <span class="media-placeholder media-placeholder--lg">{{ categories.list | categoryTitle(main.data.category) }}</span>
+      {% endif %}
+    </a>
+    <div class="hero-featured__body">
+      <p class="story-card__kicker"><a href="{{ categories.list | categoryUrl(main.data.category) }}">{{ categories.list | categoryTitle(main.data.category) }}</a></p>
+      <h1 class="hero-featured__title"><a href="{{ main.url }}">{{ main.data.title }}</a></h1>
+      {% if main.data.description %}<p class="hero-featured__dek">{{ main.data.description }}</p>{% endif %}
+      <p class="story-card__meta">{{ main.date | readableDate }}{% if main.data.author %} · {{ main.data.author }}{% endif %}</p>
+    </div>
+  </article>
+
+  <div class="hero-secondary">
+    {% for post in featured | limit(5) %}
+      {% if not loop.first %}
+      <article class="story-card story-card--row">
+        <a class="story-card__media" href="{{ post.url }}">
+          {% if post.data.image %}
+          <img src="{{ post.data.image }}" alt="{{ post.data.imageAlt or post.data.title }}" loading="lazy">
+          {% else %}
+          <span class="media-placeholder">{{ categories.list | categoryTitle(post.data.category) | truncate(1, true, "") }}</span>
+          {% endif %}
+        </a>
+        <div>
+          <p class="story-card__kicker">{{ categories.list | categoryTitle(post.data.category) }}</p>
+          <h2 class="story-card__title"><a href="{{ post.url }}">{{ post.data.title }}</a></h2>
+        </div>
+      </article>
+      {% endif %}
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">No articles yet. Publish your first post from the admin dashboard and it will appear here.</div>
+  {% endif %}
+</section>
+
+{% for top in categories.list | topLevel %}
+  {% set sectionPosts = collections.posts | postsUnderCategory(top.slug) | limit(4) %}
+  {% if sectionPosts.length %}
+  <section class="section-block wrap">
+    <header class="section-block__head">
+      <h2><a href="/{{ top.slug }}/">{{ top.title }}</a></h2>
+      <a class="section-block__more" href="/{{ top.slug }}/">See all →</a>
+    </header>
+    <div class="section-block__grid">
+      {% for post in sectionPosts %}
+      <article class="story-card">
+        <a class="story-card__media" href="{{ post.url }}">
+          {% if post.data.image %}
+          <img src="{{ post.data.image }}" alt="{{ post.data.imageAlt or post.data.title }}" loading="lazy">
+          {% else %}
+          <span class="media-placeholder">{{ categories.list | categoryTitle(post.data.category) | truncate(1, true, "") }}</span>
+          {% endif %}
+        </a>
+        <p class="story-card__kicker">{{ categories.list | categoryTitle(post.data.category) }}</p>
+        <h3 class="story-card__title"><a href="{{ post.url }}">{{ post.data.title }}</a></h3>
+        <p class="story-card__meta">{{ post.date | readableDate }}</p>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+{% endfor %}
+
+<section class="newsletter-cta">
+  <div class="wrap newsletter-cta__inner">
+    <div>
+      <h2>The GIR Brief</h2>
+      <p>One weekly email on markets, banking, and global mobility — the stories that actually move a portfolio.</p>
+    </div>
+    <form class="newsletter-cta__form" onsubmit="return false;">
+      <input type="email" placeholder="you@email.com" aria-label="Email address">
+      <button type="submit">Subscribe</button>
+    </form>
+  </div>
+</section>
+
+<section class="section-index wrap" aria-label="All sections">
+  <div class="section-index__grid">
+    {% for top in categories.list | topLevel %}
+    <div class="section-index__cell">
+      <span class="section-index__num">{{ loop.index | pad2 }}</span>
+      <h3><a href="/{{ top.slug }}/">{{ top.title }}</a></h3>
+      {% set kids = categories.list | childrenOf(top.slug) %}
+      {% if kids.length %}
+      <ul>
+        {% for kid in kids | limit(5) %}
+        <li><a href="/{{ kid.slug }}/">{{ kid.title }}</a></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</section>

@@ -1,0 +1,41 @@
+<header class="masthead">
+  <div class="masthead__bar wrap">
+    <span class="masthead__date">{{ buildDate | readableDate }}</span>
+    <span class="masthead__tagline">{{ site.tagline }}</span>
+  </div>
+  <div class="masthead__main wrap">
+    <a class="masthead__logo" href="/">{{ site.logoText }}<span class="masthead__logo-full">{{ site.title }}</span></a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav">
+      <span></span><span></span><span></span>
+      <span class="visually-hidden">Menu</span>
+    </button>
+  </div>
+  <nav class="primary-nav" id="primaryNav">
+    <ul class="primary-nav__list">
+      {% for top in categories.list | topLevel %}
+      <li class="primary-nav__item">
+        <a href="/{{ top.slug }}/">{{ top.title }}</a>
+        {% set kids = categories.list | childrenOf(top.slug) %}
+        {% if kids.length %}
+        <button class="primary-nav__expand" aria-label="Expand {{ top.title }}"><span></span></button>
+        <ul class="primary-nav__sub">
+          {% for kid in kids %}
+          <li>
+            <a href="/{{ kid.slug }}/">{{ kid.title }}</a>
+            {% set grandkids = categories.list | childrenOf(kid.slug) %}
+            {% if grandkids.length %}
+            <ul class="primary-nav__sub-sub">
+              {% for gk in grandkids %}
+              <li><a href="/{{ gk.slug }}/">{{ gk.title }}</a></li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+  </nav>
+</header>

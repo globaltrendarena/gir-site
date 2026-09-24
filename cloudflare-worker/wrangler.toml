@@ -1,0 +1,7 @@
+name = "gir-cms-auth"
+main = "oauth-worker.js"
+compatibility_date = "2024-09-01"
+
+# After deploying, set your secrets with:
+#   wrangler secret put GITHUB_CLIENT_ID
+#   wrangler secret put GITHUB_CLIENT_SECRET

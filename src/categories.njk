@@ -1,0 +1,48 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: categories.list
+  size: 1
+  alias: cat
+permalink: "/{{ cat.slug }}/index.html"
+eleventyComputed:
+  title: "{{ cat.title }}"
+  description: "{{ cat.title }} — coverage from Global Investment Reviews."
+---
+<div class="wrap category-page">
+  <header class="category-page__header">
+    <p class="category-page__kicker">
+      {% if cat.parent %}<a href="/{{ cat.parent }}/">{{ categories.list | categoryTitle(cat.parent) }}</a> / {% endif %}
+      Section
+    </p>
+    <h1 class="category-page__title">{{ cat.title }}</h1>
+  </header>
+
+  {% set kids = categories.list | childrenOf(cat.slug) %}
+  {% if kids.length %}
+  <nav class="category-page__subnav" aria-label="Subsections of {{ cat.title }}">
+    {% for kid in kids %}
+    <a href="/{{ kid.slug }}/">{{ kid.title }}</a>
+    {% endfor %}
+  </nav>
+  {% endif %}
+
+  {% set catPosts = collections.posts | postsUnderCategory(cat.slug) %}
+  {% if catPosts.length %}
+  <ol class="post-index">
+    {% for post in catPosts %}
+    <li class="post-index__item">
+      <span class="post-index__num">{{ loop.index }}</span>
+      <div>
+        <p class="post-index__kicker">{{ categories.list | categoryTitle(post.data.category) }}</p>
+        <h2 class="post-index__title"><a href="{{ post.url }}">{{ post.data.title }}</a></h2>
+        {% if post.data.description %}<p class="post-index__dek">{{ post.data.description }}</p>{% endif %}
+        <time class="post-index__date" datetime="{{ post.date | isoDate }}">{{ post.date | readableDate }}</time>
+      </div>
+    </li>
+    {% endfor %}
+  </ol>
+  {% else %}
+  <p class="empty-state">No articles have been filed in this section yet. New analysis is added regularly from the admin dashboard.</p>
+  {% endif %}
+</div>

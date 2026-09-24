@@ -1,0 +1,17 @@
+{
+  "name": "global-investment-reviews",
+  "version": "1.0.0",
+  "description": "Global Investment Reviews — static site (Eleventy) with a Git-based CMS admin panel.",
+  "scripts": {
+    "build": "eleventy",
+    "serve": "eleventy --serve",
+    "debug": "DEBUG=Eleventy* eleventy"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1",
+    "turndown": "^7.2.0"
+  },
+  "dependencies": {
+    "luxon": "^3.7.2"
+  }
+}
